@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>{% block title %}{% endblock %}</title>
+
+        <!-- Bootstrap css -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+        <!-- Icons? -->
+        <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+		
+        <!-- Own Css -->
+        <link rel="stylesheet" href="{{url_for('static', filename='styles/main.css')}}">
+
+		<!-- Own Javascript -->
+		<script src="{{url_for('static', filename='javascript/main.js')}}" ></script>
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> -->
+		
+		<!-- Chartjs -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		{% block head %}{% endblock %}
+</head>
+<body>
+
+	<div class="container">
+		<header class="d-flex justify-content-between">
+			<a href="/" class="text-decoration-none">
+				<img class="img-fluid logo_size" src="/static/images/palworld_logo.png" alt="palworld logo">
+			</a>
+	
+			<div class="d-flex align-content-center flex-wrap">
+				<!-- desktop and ipad navbar, Only appear md and above screens-->
+				<nav class="navbar d-md-flex d-none">
+					<a class="nav-link active p-0 nav-content-height pop_semi_bold" aria-current="page" href="/index.php" >Home</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/aboutus.php"  >About</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/products.php" >Products</a>
+					<!-- <?php if (!isset($_SESSION['username'])): ?> -->
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/login.php" >Login</a>
+					<!-- <?php endif; ?>
+					<?php if (isset($_SESSION['username'])): ?> -->
+					<!-- <a href="shoppingcart.php" class="p-0 cart_icon_wrapper" style="margin-left:45px;"> -->
+						<!-- <img src="/images/shopping_cart_icon.svg" alt="mdo" width="27" height="22" style="margin-top:11px;"> -->
+						<!-- <span class="cart_icon_number"><?php echo"".(isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? count($_SESSION['cart']) : 0);?> </span> -->
+					<!-- </a> -->
+	
+					<!-- <a href="account.php" class="text-decoration-none p-0"> -->
+						<!-- <img src="<?php echo (isset($_SESSION['profile_pic']) && !empty($_SESSION['profile_pic'])) ? htmlspecialchars($_SESSION['profile_pic']) : "/images/login_profile.png"; ?>" alt="mdo" width="40" height="40" style="margin-left:50px;"> -->
+					<!-- </a> -->
+					<!-- <?php endif; ?> -->
+					
+				</nav>
+				<!-- End of Desktop and ipad Navbar -->
+	
+				<!-- Mobile Navbar -->
+				<nav class="navbar d-md-none modal-mobile-nav-bar-wrapper" aria-label="Third navbar example">
+					<div class="container-fluid">
+						<a href="#" class="p-0 cart_icon_wrapper" >
+						<img src="/images/shopping_cart_icon.svg" alt="mdo" width="27" height="22" style="margin-top:11px; margin-bottom:5px;">
+							<span class="cart_icon_number">16</span>
+						</a>
+	
+						<button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left:20px;" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
+							<div class="modal-dialog modal-fullscreen modal-mobile-nav-bar">
+								<div class="modal-content">
+									<div class="modal-header border-0">
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-top:30px;margin-right:33px;"></button>
+									</div>
+									<div class="d-flex flex-column align-items-end">
+										<a href="#" class="text-decoration-none p-0" data-bs-toggle="dropdown" aria-expanded="false">
+										<!-- <?php if (isset($_SESSION['username'])): ?> -->
+											<a href="account.php" class="text-decoration-none p-0">
+											<!-- <img src="<?php echo (isset($_SESSION['profile_pic']) && !empty($_SESSION['profile_pic'])) ? htmlspecialchars($_SESSION['profile_pic']) : "/images/mobile_login_profile.png"; ?>" alt="mdo" width="64" height="64" style="margin-top:48px;margin-right:50px;margin-bottom:28px"> -->
+											</a>
+										<!-- <?php endif; ?> -->
+										</a>
+										<a class="nav-mobile-link active p-0 nav-mobile-content-height pop_semi_bold" aria-current="page" href="/index.php" >Home</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/aboutus.php" >About</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/products.php" >Products</a>
+										<!-- <?php if (!isset($_SESSION['username'])): ?> -->
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login.php" >Login</a>
+										<!-- <?php else: ?> -->
+											<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login.php" >Login</a>
+										<!-- <?php endif; ?> -->
+	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</nav>
+				<!-- End Of Mobile Navbar -->
+			</div>
+		</header>
+	  </div>
+	  {% block body %}{% endblock %}
+	  <script>
+
+	  </script>
+</body>
+</html>
