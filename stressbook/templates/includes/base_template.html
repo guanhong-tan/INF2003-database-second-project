@@ -16,6 +16,7 @@
 		
         <!-- Own Css -->
         <link rel="stylesheet" href="{{url_for('static', filename='styles/main.css')}}">
+		<link rel="stylesheet" href="{{url_for('static', filename='styles/login.css')}}">
 
 		<!-- Own Javascript -->
 		<script src="{{url_for('static', filename='javascript/main.js')}}" ></script>
@@ -39,11 +40,14 @@
 			<div class="d-flex align-content-center flex-wrap">
 				<!-- desktop and ipad navbar, Only appear md and above screens-->
 				<nav class="navbar d-md-flex d-none">
-					<a class="nav-link active p-0 nav-content-height pop_semi_bold" aria-current="page" href="/index.php" >Home</a>
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/aboutus.php"  >About</a>
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/products.php" >Products</a>
+					<a class="nav-link active p-0 nav-content-height pop_semi_bold" aria-current="page" href="/" >Home</a>
+					<!-- A , B , C , D , E ,F ,G, H Seating  #Easier To Do , user just need to book A,B,C,D,E,F,G,H-->
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/aboutus.php"  >Concerts</a>
+					<!-- Movie Seating like the one in golden village harder , when got time  -->
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/products.php" >Threaters</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/products.php" >Dashboard</a>
 					<!-- <?php if (!isset($_SESSION['username'])): ?> -->
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/login.php" >Login</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/login" >Login</a>
 					<!-- <?php endif; ?>
 					<?php if (isset($_SESSION['username'])): ?> -->
 					<!-- <a href="shoppingcart.php" class="p-0 cart_icon_wrapper" style="margin-left:45px;"> -->
@@ -62,11 +66,11 @@
 				<!-- Mobile Navbar -->
 				<nav class="navbar d-md-none modal-mobile-nav-bar-wrapper" aria-label="Third navbar example">
 					<div class="container-fluid">
-						<a href="#" class="p-0 cart_icon_wrapper" >
+						<!-- <a href="#" class="p-0 cart_icon_wrapper" >
 						<img src="/images/shopping_cart_icon.svg" alt="mdo" width="27" height="22" style="margin-top:11px; margin-bottom:5px;">
 							<span class="cart_icon_number">16</span>
 						</a>
-	
+	 -->
 						<button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left:20px;" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
@@ -84,13 +88,13 @@
 											</a>
 										<!-- <?php endif; ?> -->
 										</a>
-										<a class="nav-mobile-link active p-0 nav-mobile-content-height pop_semi_bold" aria-current="page" href="/index.php" >Home</a>
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/aboutus.php" >About</a>
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/products.php" >Products</a>
+										<a class="nav-mobile-link active p-0 nav-mobile-content-height pop_semi_bold" aria-current="page" href="/" >Home</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/aboutus.php" >Concerts</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/products.php" >Threaters</a>
 										<!-- <?php if (!isset($_SESSION['username'])): ?> -->
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login.php" >Login</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login.php" >Dashboard</a>
 										<!-- <?php else: ?> -->
-											<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login.php" >Login</a>
+											<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login" >Login</a>
 										<!-- <?php endif; ?> -->
 	
 									</div>
