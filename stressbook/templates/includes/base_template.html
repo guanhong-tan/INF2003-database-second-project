@@ -17,6 +17,7 @@
         <!-- Own Css -->
         <link rel="stylesheet" href="{{url_for('static', filename='styles/main.css')}}">
 		<link rel="stylesheet" href="{{url_for('static', filename='styles/login.css')}}">
+		<link rel="stylesheet" href="{{url_for('static', filename='styles/seating_arrangement.css')}}">
 
 		<!-- Own Javascript -->
 		<script src="{{url_for('static', filename='javascript/main.js')}}" ></script>
@@ -42,10 +43,10 @@
 				<nav class="navbar d-md-flex d-none">
 					<a class="nav-link active p-0 nav-content-height pop_semi_bold" aria-current="page" href="/" >Home</a>
 					<!-- A , B , C , D , E ,F ,G, H Seating  #Easier To Do , user just need to book A,B,C,D,E,F,G,H-->
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/aboutus.php"  >Concerts</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/concerts"  >Concerts</a>
 					<!-- Movie Seating like the one in golden village harder , when got time  -->
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/products.php" >Threaters</a>
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/products.php" >Dashboard</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/threaters" >Threaters</a>
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/dashboard" >Dashboard</a>
 					<!-- <?php if (!isset($_SESSION['username'])): ?> -->
 					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/login" >Login</a>
 					<!-- <?php endif; ?>
@@ -89,10 +90,10 @@
 										<!-- <?php endif; ?> -->
 										</a>
 										<a class="nav-mobile-link active p-0 nav-mobile-content-height pop_semi_bold" aria-current="page" href="/" >Home</a>
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/aboutus.php" >Concerts</a>
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/products.php" >Threaters</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/concerts" >Concerts</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/threaters" >Threaters</a>
 										<!-- <?php if (!isset($_SESSION['username'])): ?> -->
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login.php" >Dashboard</a>
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/dashboard" >Dashboard</a>
 										<!-- <?php else: ?> -->
 											<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login" >Login</a>
 										<!-- <?php endif; ?> -->
