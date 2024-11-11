@@ -5,7 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<title>{% block title %}{% endblock %}</title>
-
+		<!-- Font Awesome 6.5.1 -->
+		<script src="https://kit.fontawesome.com/eec58851c8.js" crossorigin="anonymous"></script>
         <!-- Bootstrap css -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -42,24 +43,19 @@
 				<!-- desktop and ipad navbar, Only appear md and above screens-->
 				<nav class="navbar d-md-flex d-none">
 					<a class="nav-link active p-0 nav-content-height pop_semi_bold" aria-current="page" href="/" >Home</a>
-					<!-- A , B , C , D , E ,F ,G, H Seating  #Easier To Do , user just need to book A,B,C,D,E,F,G,H-->
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/concerts"  >Concerts</a>
+					<!-- A , B , C , D , E ,F ,G, H Seating  #Easier To Do , user just need to book A,B,C,D,E,F,G,H I Hope-->
+					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/events"  >Events</a>
 					<!-- Movie Seating like the one in golden village harder , when got time  -->
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/threaters" >Threaters</a>
+					<!-- <a class="nav-link p-0 nav-content-height pop_semi_bold" href="/threaters" >Threaters</a> -->
 					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/dashboard" >Dashboard</a>
-					<!-- <?php if (!isset($_SESSION['username'])): ?> -->
-					<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/login" >Login</a>
-					<!-- <?php endif; ?>
-					<?php if (isset($_SESSION['username'])): ?> -->
-					<!-- <a href="shoppingcart.php" class="p-0 cart_icon_wrapper" style="margin-left:45px;"> -->
-						<!-- <img src="/images/shopping_cart_icon.svg" alt="mdo" width="27" height="22" style="margin-top:11px;"> -->
-						<!-- <span class="cart_icon_number"><?php echo"".(isset($_SESSION['cart']) && is_array($_SESSION['cart']) ? count($_SESSION['cart']) : 0);?> </span> -->
-					<!-- </a> -->
-	
-					<!-- <a href="account.php" class="text-decoration-none p-0"> -->
-						<!-- <img src="<?php echo (isset($_SESSION['profile_pic']) && !empty($_SESSION['profile_pic'])) ? htmlspecialchars($_SESSION['profile_pic']) : "/images/login_profile.png"; ?>" alt="mdo" width="40" height="40" style="margin-left:50px;"> -->
-					<!-- </a> -->
-					<!-- <?php endif; ?> -->
+
+					{% if session.get('logged_in') %}
+						<a href="/user_profile" class="text-decoration-none p-0">	
+							<img class="img-fluid" src="/static/images/login_profile.png" alt="login_profile" width="40" height="40" style="margin-left:40px;">
+						</a>
+						{% else %}
+						<a class="nav-link p-0 nav-content-height pop_semi_bold" href="/login" >Login</a>
+					{% endif %}
 					
 				</nav>
 				<!-- End of Desktop and ipad Navbar -->
@@ -67,11 +63,6 @@
 				<!-- Mobile Navbar -->
 				<nav class="navbar d-md-none modal-mobile-nav-bar-wrapper" aria-label="Third navbar example">
 					<div class="container-fluid">
-						<!-- <a href="#" class="p-0 cart_icon_wrapper" >
-						<img src="/images/shopping_cart_icon.svg" alt="mdo" width="27" height="22" style="margin-top:11px; margin-bottom:5px;">
-							<span class="cart_icon_number">16</span>
-						</a>
-	 -->
 						<button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left:20px;" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
@@ -90,13 +81,13 @@
 										<!-- <?php endif; ?> -->
 										</a>
 										<a class="nav-mobile-link active p-0 nav-mobile-content-height pop_semi_bold" aria-current="page" href="/" >Home</a>
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/concerts" >Concerts</a>
-										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/threaters" >Threaters</a>
-										<!-- <?php if (!isset($_SESSION['username'])): ?> -->
+										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/events" >Events</a>
 										<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/dashboard" >Dashboard</a>
-										<!-- <?php else: ?> -->
+										{% if session.get('logged_in') %}
+											<img class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold img-fluid" src="/static/images/login_profile.png" alt="login_profile" width="40" height="40" style="margin-left:50px;">
+										{% else %}
 											<a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login" >Login</a>
-										<!-- <?php endif; ?> -->
+										{% endif %}
 	
 									</div>
 								</div>

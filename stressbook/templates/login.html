@@ -19,24 +19,24 @@
                 <!-- <?php echo htmlspecialchars($error); ?> -->
             <!-- </div> -->
         <!-- <?php endif; ?> -->
-        <!-- <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> -->
+        <form method="post" action="{{ url_for('login_account') }}">
             <div>
                 <label class="form-label custom_text_box_label" for="email">Email Address*</label>
                 <input required class="form-control custom_text_box" type="email" id="email" name="email" placeholder="Email Address" style="margin-bottom:20px;">
             </div>
             <div>
                 <div class="d-flex justify-content-between">
-                    <label class="form-label custom_text_box_label" for="pwd">Password*</label>
-                    <a href="/forgotpassword.php" class="custom_text_box_label" style="color:#F0972D;font-style: italic;text-decoration:none;">Forgot Password?</a>
+                    <label class="form-label custom_text_box_label" for="password">Password*</label>
+                    <a href="/forgotpassword" class="custom_text_box_label" style="color:#F0972D;font-style: italic;text-decoration:none;">Forgot Password?</a>
                 </div>
-                <input required class="form-control custom_text_box" type="password" id="pwd" name="pwd"
+                <input required class="form-control custom_text_box" type="password" id="password" name="password"
                 placeholder="Password">
             </div>
             <div class="text-center">
                 <button type="submit"  class="btn text-white semi_bold justify-content-center" style="margin-top:30px;background-color:#F0972D;width:150px;height:38px;font-size:16px;">Sign In</button>
             </div>
-        <!-- </form> -->
-        <p style="margin-top:12px;font-size:14px;">Don’t have an account?<a class="pop_semi_bold" href="register.php" style="text-decoration:none;color:#F0972D;"> Register here</a></p>
+        </form>
+        <p style="margin-top:12px;font-size:14px;">Don’t have an account?<a class="pop_semi_bold" href="/register" style="text-decoration:none;color:#F0972D;"> Register here</a></p>
     </div>
   </div>
   </main>
