@@ -1,5 +1,5 @@
 from datetime import datetime
-from main import users_collection
+from db_connection import users_collection 
 from bson import ObjectId
 
 def create_user(name,email,password):
@@ -8,7 +8,6 @@ def create_user(name,email,password):
         "email": email,
         "password": password,
         "created_at": datetime.now().isoformat(),
-        "bookings": []
     }
 
     return users_collection.insert_one(user)

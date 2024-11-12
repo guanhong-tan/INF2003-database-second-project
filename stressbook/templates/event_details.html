@@ -1,0 +1,115 @@
+{% extends "includes/base_template.html" %}
+{% block title %}StressBook {% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+
+<main class="container p-0">
+    <div class="row">
+        <div class="col-12">
+            <!-- Start Of Banner -->
+            <div class="bg-image d-flex flex-column justify-content-center align-items-center" style="background-image: url('/{{ event.image_url }}');height: 720px;background-size:cover;">
+            </div>
+            <!-- End Of Banner -->
+        </div>
+    </div>
+</main>
+
+<div class="container p-0">
+        <div class="row" >
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 col-12">
+                <nav class="navbar justify-content-center" style="height:80px;">
+                    <a class="event-details-link text-center" href="#eventDetails" style="margin-left:0px;">Event Details</a>
+                    <a class="event-details-link" href="#prices">Ticket Pricing</a>
+                    <a class="event-details-link" href="#faq">Exchange & Refund Policy </a>
+                    <a class="event-details-link" href="#policy">Admission Policy</a>
+                </nav>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 d-flex justify-content-center align-items-center">
+                <a href="/seat_arrangement" class="btn btn-primary btn-block" style="width:100%;padding: 15px 10px;margin: 0;">Buy Tickets</a>
+            </div>
+        </div>
+
+      <!-- Event Details -->
+        <div class="row">
+            <div class="col-12">
+                <div id="eventDetails">
+                    <h1 class="text-center mt-4">{{ event.name }}</h1>
+                    <p><strong>Type:</strong> {{ event.type }}</p>
+                    <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
+                    <p><strong>Venue:</strong> {{ event.location }}</p>
+                    <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
+                    <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
+                    <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
+                    <a href="{{ url_for('events') }}">Back to Events</a>
+                </div>
+            </div>
+        </div>
+       <!-- End Of Event Details -->
+
+       <!-- Ticket Pricing -->
+        <div class="col-12">
+            <div id="prices">
+                <h1 class="text-center mt-4">{{ event.name }}</h1>
+                <p><strong>Type:</strong> {{ event.type }}</p>
+                <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
+                <p><strong>Venue:</strong> {{ event.location }}</p>
+                <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
+                <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
+                <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
+                <a href="{{ url_for('events') }}">Back to Events</a>
+            </div>
+        </div>
+        <!-- End Of Ticket Pricing -->
+
+        <!-- FAQ -->
+        <div class="col-12">
+            <div id="faq">
+                <h1 class="text-center mt-4">{{ event.name }}</h1>
+                <p><strong>Type:</strong> {{ event.type }}</p>
+                <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
+                <p><strong>Venue:</strong> {{ event.location }}</p>
+                <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
+                <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
+                <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
+                <a href="{{ url_for('events') }}">Back to Events</a>
+            </div>
+        </div>
+        <!-- End Of FAQ -->
+
+        <!-- Policy Section-->
+        <div class="col-12">
+            <div id="policy">
+                <h1 class="text-center mt-4">{{ event.name }}</h1>
+                <p><strong>Type:</strong> {{ event.type }}</p>
+                <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
+                <p><strong>Venue:</strong> {{ event.location }}</p>
+                <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
+                <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
+                <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
+                <a href="{{ url_for('events') }}">Back to Events</a>
+            </div>
+        </div>
+        <!-- End Of Policy Section-->
+</div>
+
+
+
+<script>
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            console.log(targetElement);
+            window.scrollTo({
+                top: targetElement.offsetTop - 50,
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+
+{% endblock %}

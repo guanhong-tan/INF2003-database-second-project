@@ -1,19 +1,15 @@
-from flask import Flask, render_template, request, url_for, redirect , flash , session
-from pymongo import MongoClient
+from flask import Flask, render_template, request, url_for, redirect , flash , session , abort
+from datetime import datetime
 from models import user , event
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
-client = MongoClient('localhost', 27017)
-db = client['stressbook']  # Replace with your MongoDB database name
-
 # Pass the db instance to the models
-users_collection = db['users']
-events_collection = db['events']
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    events = list(event.retrieve_events())
+    return render_template('index.html',events=events)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register_account():
@@ -73,7 +69,18 @@ def login_account():
 
 @app.route("/events")
 def events():
-    return render_template("events.html")
+    events = list(event.retrieve_events())
+    return render_template("events.html",events=events)
+
+@app.route("/event/<event_id>")
+def event_detail(event_id):
+    event_detail = event.get_event_by_id(event_id)
+    if event_detail:
+        current_url = request.url
+        current_path = request.path
+        return render_template("event_details.html", event=event_detail , current_path=current_path)
+    else:
+        abort(404)  # If event not found, return a 404 error
 
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
@@ -107,5 +114,15 @@ def logout():
     flash("You have been logged out.")
     return redirect(url_for('index'))  # Redirect to login page or homepage
 
+# The @app.template_filter('datetimeformat') decorator in Flask is used to create a custom Jinja2 filter named datetimeformat, which you can use in your templates. This filter allows you to apply custom formatting to data directly within your Jinja2 templates.
+@app.template_filter('datetimeformat')
+def datetimeformat(value, format='%Y-%m-%d %H:%M'):
+    try:
+        date_obj = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")  # Adjust format if necessary
+        return date_obj.strftime(format)
+    except (ValueError, TypeError):
+        return value  # Return the original value if it can't be parsed
+    
 if __name__ == "__main__":
-    app.run(debug=True)
+    event.create_events_onload()
+    app.run(debug=True,threaded=True)

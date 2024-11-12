@@ -2,7 +2,9 @@ body {
     font-family: "Poppins", sans-serif;
   }
 
-
+html {
+    scroll-behavior: smooth;
+}
 /* Type Of Font Weights */
 /* Poppins Semi-Bold 600*/
 .pop_semi_bold {
@@ -89,6 +91,29 @@ body {
     color:black;
 }
 
+.event-details-link {
+    display: block;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    font-size: var(--bs-nav-link-font-size);
+    font-weight: var(--bs-nav-link-font-weight);
+    color: var(--bs-nav-link-color);
+    text-decoration: none;
+    background: 0 0;
+    border: 0;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+    margin-left:40px;
+    border-bottom: .25rem solid transparent;
+}
+
+.event-details-link:hover,
+.event-details-link:focus{
+    color: #F0972D !important;
+    border-bottom-color: #F0972D;
+}
+
+.event-details-link.active {
+    border-bottom-color: #F0972D;
+}
 .cart_icon_wrapper{
     position: relative;
 }

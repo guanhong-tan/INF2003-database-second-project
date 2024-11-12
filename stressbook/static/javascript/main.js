@@ -14,28 +14,11 @@ function activateMenu()
 
     var nav_links = document.getElementsByClassName("nav-link");
     var nav_mobile_links = document.getElementsByClassName("nav-mobile-link");
-
     for (var i = 0, len = nav_links.length; i < len; i++) {
         if (nav_links[i].getAttribute("href").indexOf(current) !== -1) {
             nav_links[i].classList.add("active");
             nav_mobile_links[i].classList.add("active");
         }
-    }
-}
-
-function in_de_crement_button(){
-    var idString = this.id.toString();
-    var productId = idString.split('_')[1]; 
-    const input = document.getElementById('product_'+productId);
-    console.log(this.name);
-    if (this.name=="plus"){
-        input.value = Number(input.value) + 1
-    }
-    if (this.name=="minus"){
-        if (input.value > 1){
-            input.value = Number(input.value) - 1
-        }
-       
     }
 }
 
