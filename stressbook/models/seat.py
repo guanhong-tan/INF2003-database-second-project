@@ -5,10 +5,10 @@ from datetime import datetime
     "event_id": "event_id_001",              
     "section": "333",                        
     "price": 210,                            
-    "status": "available",                   // Options: "available", "reserved", "sold"
-    "color": "Periwinkle Blue",              // Optional color information for seat mapping
+    "status": "available",                   
+    "color": "Periwinkle Blue",              
     "color_code": "#9391f7",                 
     "capacity_limit": 50,                 
-    "status": "available"                 // Availability status (e.g., "available", "reserved", "sold")
-    "reservation_expires_at": null           // Timestamp for reservation expiry
+    "status": "available"    ,            
+    "reservation_expires_at": ""           
 }

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect , flash , session , abort
 from datetime import datetime
-from models import user , event
+from models import user , event , seat
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
@@ -76,11 +76,21 @@ def events():
 def event_detail(event_id):
     event_detail = event.get_event_by_id(event_id)
     if event_detail:
-        current_url = request.url
+        # current_url = request.url
         current_path = request.path
         return render_template("event_details.html", event=event_detail , current_path=current_path)
     else:
         abort(404)  # If event not found, return a 404 error
+
+@app.route("/event/<event_id>/seating")
+def booking_concert_seat(event_id):
+    event_data = event.get_event_by_id(event_id)
+    # seats = seat.get_seats_by_event(event_id)  # Retrieve seats for the event
+    if event_data:
+        # return render_template("booking_concert_seat.html", event=event_data, seats=seats)
+        return render_template("booking_concert_seat.html", event=event_data)
+    else:
+        abort(404)  # Return a 404 error if the event is not found
 
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
