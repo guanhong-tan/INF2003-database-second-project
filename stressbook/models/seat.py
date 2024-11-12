@@ -1,14 +1,114 @@
 from datetime import datetime
+from db_connection import seats_collection , events_collection
 
-{
-    "_id": "seat_id_333",                     
-    "event_id": "event_id_001",              
-    "section": "333",                        
-    "price": 210,                            
-    "status": "available",                   
-    "color": "Periwinkle Blue",              
-    "color_code": "#9391f7",                 
-    "capacity_limit": 50,                 
-    "status": "available"    ,            
-    "reservation_expires_at": ""           
-}
+# Predefined seat sections with their configurations
+seat_sections = [
+    {"section": "333", "price": 200, "color": "Periwinkle Blue", "color_code": "#9391f7", "capacity_limit": 100},
+    {"section": "332", "price": 200, "color": "Periwinkle Blue", "color_code": "#9391f7", "capacity_limit": 100},
+    {"section": "309", "price": 200, "color": "Periwinkle Blue", "color_code": "#9391f7", "capacity_limit": 100},
+
+    {"section": "331", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "330", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "329", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "328", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "327", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "326", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "325", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "324", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "323", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "322", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "320", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "319", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "318", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "314", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "313", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "312", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "311", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+    {"section": "310", "price": 300, "color": "Lavender Blue", "color_code": "#c9c7fb", "capacity_limit": 100},
+
+    {"section": "233", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    {"section": "232", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    {"section": "230", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    {"section": "229", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    {"section": "213", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    {"section": "212", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    {"section": "209", "price": 300, "color": "Sour Candy", "color_code": "#5bb343", "capacity_limit": 100},
+    
+    {"section": "231", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    {"section": "210", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    {"section": "211", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    {"section": "114", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    {"section": "219", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    {"section": "223", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    {"section": "128", "price": 300, "color": "Green Gooseberry", "color_code": "#add9a1", "capacity_limit": 100},
+    
+    {"section": "133", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "132", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "131", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "130", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "129", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "113", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "112", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "111", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "110", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "109", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "222", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "221", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+    {"section": "220", "price": 300, "color": "Peaches N Cream", "color_code": "#f3a7a7", "capacity_limit": 100},
+   
+    {"section": "228", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "227", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "226", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "225", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "224", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "218", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "217", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "216", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "215", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+    {"section": "214", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 100},
+
+    {"section": "PA2", "price": 400, "color": "Light Whimsy", "color_code": "#97cfe9", "capacity_limit": 100},
+    {"section": "PB2", "price": 400, "color": "Light Whimsy", "color_code": "#97cfe9", "capacity_limit": 100},
+
+    {"section": "234", "price": 300, "color": "Peppermint Frosting", "color_code": "#b3f7ed", "capacity_limit": 100},
+    {"section": "208", "price": 300, "color": "Peppermint Frosting", "color_code": "#b3f7ed", "capacity_limit": 100},
+    
+    {"section": "PA1", "price": 500, "color": "Leaf Bud", "color_code": "#f1ef9d", "capacity_limit": 100},
+    {"section": "PB1", "price": 450, "color": "Leaf Bud", "color_code": "#f1ef9d", "capacity_limit": 100},
+
+    {"section": "134", "price": 500, "color": "Lime Sherbet", "color_code": "#d1d989", "capacity_limit": 100},
+    {"section": "108", "price": 450, "color": "Lime Sherbet", "color_code": "#d1d989", "capacity_limit": 100},
+]
+
+def initialize_seat_sections():
+    events = list(events_collection.find())
+    
+    for event in events:
+        event_id = event["_id"]
+        
+        # Check if any seat exists for this event
+        if seats_collection.count_documents({"event_id": event_id}) > 0:
+            print(f"Seats already initialized for event {event_id}, skipping.")
+            continue
+        
+        # Only proceed with insertion if no seats exist for this event
+        seats = []
+        for section in seat_sections:
+            seat_section_id = f"seat_section_{event_id}_{section['section']}"
+            seat_section = {
+                "_id": seat_section_id,
+                "event_id": event_id,
+                "section": section["section"],
+                "description": f"{section['section']} section in event {event_id}",
+                "price": section["price"],
+                "available_tickets": section["capacity_limit"],
+                "reserved_tickets": 0,
+                "sold_tickets": 0,
+                "color": section["color"],
+                "color_code": section["color_code"],
+                "capacity_limit": section["capacity_limit"]
+            }
+            seats.append(seat_section)
+        
+        seats_collection.insert_many(seats)
+        print(f"Inserted {len(seats)} seat sections for event {event_id}.")

@@ -135,4 +135,5 @@ def datetimeformat(value, format='%Y-%m-%d %H:%M'):
     
 if __name__ == "__main__":
     event.create_events_onload()
+    seat.initialize_seat_sections()
     app.run(debug=True,threaded=True)
