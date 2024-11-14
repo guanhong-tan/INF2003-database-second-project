@@ -59,8 +59,13 @@ py main.py
 ```
 Or
 ```bash
-flask --app main --debug run
+python main.py
 ```
+Or
+```bash
+python -m main run
+```
+
 Copy The Local Host Link And Paste It To The Browser For Example:
 ```bash
 http://127.0.0.1:5000
