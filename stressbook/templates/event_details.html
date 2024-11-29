@@ -45,15 +45,19 @@
                         <div class="d-flex align-items-center mt-3">
                             <i class="fas fa-map-marker-alt me-2"></i>
                             <span>{{ event.location }}</span>
-                            <a href="#" class="ms-2 text-primary">VIEW VENUE</a>
                         </div>
+                        {% if event.artist %}
                         <div class="d-flex align-items-center mt-3">
-                            <i class="fas fa-dollar-sign me-2"></i>
-                            <span>${{ event.standard_price }} - ${{ event.vip_price }}</span>
+                            <i class="fas fa-microphone me-2"></i>
+                            <span>{{ event.artist }}</span>
                         </div>
-                        <div class="mt-3">
-                            <a href="{{ url_for('events') }}" class="btn btn-outline-secondary">Back to Events</a>
+                        {% endif %}
+                        {% if event.organizer %}
+                        <div class="d-flex align-items-center mt-3">
+                            <i class="fas fa-users me-2"></i>
+                            <span>Organized by: {{ event.organizer }}</span>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -65,25 +69,33 @@
                 <div id="synopsis">
                     <h2 class="text-center mt-4">Event Synopsis</h2>
                     <div class="mt-4">
-                        <p class="lead">{{ event.description }}</p>
+                        {% if event.synopsis %}
+                            <p class="lead">{{ event.synopsis }}</p>
+                        {% else %}
+                            <p class="lead">{{ event.description }}</p>
+                        {% endif %}
+                        
+                        {% if event.highlights %}
                         <div class="mt-4">
                             <h4>Event Highlights</h4>
                             <ul>
-                                {% if event.highlights %}
-                                    {% for highlight in event.highlights %}
-                                        <li>{{ highlight }}</li>
-                                    {% endfor %}
-                                {% else %}
-                                    <li>More details coming soon!</li>
-                                {% endif %}
+                                {% for highlight in event.highlights %}
+                                    <li>{{ highlight }}</li>
+                                {% endfor %}
                             </ul>
                         </div>
+                        {% endif %}
+
                         <div class="mt-4">
                             <h4>Important Notes</h4>
                             <ul>
-                                <li>Duration: {{ event.duration if event.duration else 'TBA' }}</li>
-                                <li>Age Advisory: {{ event.age_advisory if event.age_advisory else 'General Audience' }}</li>
-                                <li>Language: {{ event.language if event.language else 'English' }}</li>
+                                <li>Duration: {{ event.duration }}</li>
+                                <li>Age Advisory: {{ event.age_advisory }}</li>
+                                {% if event.terms_conditions %}
+                                    {% for term in event.terms_conditions %}
+                                        <li>{{ term }}</li>
+                                    {% endfor %}
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -135,25 +147,16 @@
         <!-- End Of Ticket Pricing -->
 
         <!-- FAQ -->
-        <div class="col-12">
-            <div id="faq">
-                <h2 class="text-center mt-4">Exchange & Refund Policy FAQ</h2>
-                
-                <div class="mt-4">
-                    <h4>What is your refund policy?</h4>
-                    <p>Tickets are non-refundable except in cases of event cancellation. If the event is cancelled, you will receive a full refund within 7-10 business days.</p>
-
-                    <h4>Can I exchange my tickets for a different date?</h4>
-                    <p>Ticket exchanges are not permitted. Please ensure you select the correct date and time when making your purchase.</p>
-
-                    <h4>What happens if I can't attend the event?</h4>
-                    <p>While tickets are non-refundable, you may transfer them to another person. Please contact customer service at least 48 hours before the event for transfer procedures.</p>
-
-                    <h4>How do I request a refund if the event is cancelled?</h4>
-                    <p>In case of event cancellation, refunds will be automatically processed to the original payment method. No action is required on your part.</p>
-
-                    <h4>Are partial refunds available if I leave the event early?</h4>
-                    <p>No, partial refunds are not available under any circumstances once the event has begun.</p>
+        <div class="row">
+            <div class="col-12">
+                <div id="faq">
+                    <h2 class="text-center mt-4">Frequently Asked Questions</h2>
+                    <div class="mt-4">
+                        {% for item in event.faq %}
+                            <h4>{{ item.question }}</h4>
+                            <p>{{ item.answer }}</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,10 +183,17 @@
                     </ul>
 
                     <h4>Child Policy</h4>
+                    {% if event.adult_only %}
+                    <ul>
+                        <li>This is an adult-only event. No admission for anyone under 18 years old</li>
+                        <li>Valid ID/proof of age will be required at entry</li>
+                    </ul>
+                    {% else %}
                     <ul>
                         <li>No admission for infants and children under 12 years old</li>
                         <li>Children 12 years and above must purchase a ticket for entry</li>
                     </ul>
+                    {% endif %}
 
                     <h4>Audio, Photography & Videography Policy</h4>
                     <ul>

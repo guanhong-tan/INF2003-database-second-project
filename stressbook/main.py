@@ -170,7 +170,14 @@ def process_booking():
     flash('Booking successful!', 'success')
     return redirect(url_for('events'))
 
+@app.route('/reset_db')
+def reset_database():
+    from models.event import reset_events
+    reset_events()
+    return "Database reset successfully"
+
 if __name__ == "__main__":
+    event_model.reset_events()
     event_model.create_events_onload()
     seat.initialize_seat_sections()
     app.run(debug=True,threaded=True)
