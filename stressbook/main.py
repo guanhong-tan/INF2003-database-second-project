@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect , flash , session , abort
 from datetime import datetime
-from models import user , event , seat
+from models import user , event as event_model , seat
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
@@ -8,7 +8,7 @@ app.secret_key = "your_secret_key"  # Replace with a strong secret key
 
 @app.route('/')
 def index():
-    events = list(event.retrieve_events())
+    events = list(event_model.retrieve_events())
     return render_template('index.html',events=events)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -69,12 +69,12 @@ def login_account():
 
 @app.route("/events")
 def events():
-    events = list(event.retrieve_events())
+    events = list(event_model.retrieve_events())
     return render_template("events.html",events=events)
 
 @app.route("/event/<event_id>")
 def event_detail(event_id):
-    event_detail = event.get_event_by_id(event_id)
+    event_detail = event_model.get_event_by_id(event_id)
     if event_detail:
         # current_url = request.url
         current_path = request.path
@@ -84,7 +84,7 @@ def event_detail(event_id):
 
 @app.route("/event/<event_id>/seating")
 def booking_concert_seat(event_id):
-    event_data = event.get_event_by_id(event_id)
+    event_data = event_model.get_event_by_id(event_id)
     # seats = seat.get_seats_by_event(event_id)  # Retrieve seats for the event
     if event_data:
         # return render_template("booking_concert_seat.html", event=event_data, seats=seats)
@@ -133,7 +133,44 @@ def datetimeformat(value, format='%Y-%m-%d %H:%M'):
     except (ValueError, TypeError):
         return value  # Return the original value if it can't be parsed
     
+@app.route('/booking/confirm', methods=['GET', 'POST'])
+def booking_confirm():
+    event_id = request.args.get('event_id')
+    event = event_model.get_event_by_id(event_id)
+    
+    if event is None:
+        flash("Event not found.", "danger")
+        return redirect(url_for('events'))
+    
+    return render_template('booking_confirm.html',
+        event=event,
+        section=request.args.get('section'),
+        section_type=request.args.get('section_type'),
+        price=request.args.get('price')
+    )
+
+@app.route('/booking/process', methods=['POST'])
+def process_booking():
+    event_id = request.form.get('event_id')
+    section = request.form.get('section')
+    price = request.form.get('price')
+    quantity = request.form.get('quantity')
+
+    # Get the event details
+    event = event_model.get_event_by_id(event_id)
+
+    # TODO: Add your booking logic here
+    # For example:
+    # - Check if tickets are still available
+    # - Create booking record in database
+    # - Update ticket count
+    # - etc.
+
+    # For now, just redirect to a success page or back to events
+    flash('Booking successful!', 'success')
+    return redirect(url_for('events'))
+
 if __name__ == "__main__":
-    event.create_events_onload()
+    event_model.create_events_onload()
     seat.initialize_seat_sections()
     app.run(debug=True,threaded=True)

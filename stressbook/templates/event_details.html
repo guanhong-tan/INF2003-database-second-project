@@ -37,29 +37,99 @@
             <div class="col-12">
                 <div id="eventDetails">
                     <h1 class="text-center mt-4">{{ event.name }}</h1>
-                    <p><strong>Type:</strong> {{ event.type }}</p>
-                    <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
-                    <p><strong>Venue:</strong> {{ event.location }}</p>
-                    <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
-                    <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
-                    <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
-                    <a href="{{ url_for('events') }}">Back to Events</a>
+                    <div class="mt-4">
+                        <div class="d-flex align-items-center mt-3">
+                            <i class="far fa-calendar-alt me-2"></i>
+                            <span>{{ event.date | datetimeformat('%a, %-d %b %Y') }}</span>
+                        </div>
+                        <div class="d-flex align-items-center mt-3">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <span>{{ event.location }}</span>
+                            <a href="#" class="ms-2 text-primary">VIEW VENUE</a>
+                        </div>
+                        <div class="d-flex align-items-center mt-3">
+                            <i class="fas fa-dollar-sign me-2"></i>
+                            <span>${{ event.standard_price }} - ${{ event.vip_price }}</span>
+                        </div>
+                        <div class="mt-3">
+                            <a href="{{ url_for('events') }}" class="btn btn-outline-secondary">Back to Events</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
        <!-- End Of Event Details -->
+       <!-- Event Synopsis -->
+       <div class="row">
+            <div class="col-12">
+                <div id="synopsis">
+                    <h2 class="text-center mt-4">Event Synopsis</h2>
+                    <div class="mt-4">
+                        <p class="lead">{{ event.description }}</p>
+                        <div class="mt-4">
+                            <h4>Event Highlights</h4>
+                            <ul>
+                                {% if event.highlights %}
+                                    {% for highlight in event.highlights %}
+                                        <li>{{ highlight }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>More details coming soon!</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <div class="mt-4">
+                            <h4>Important Notes</h4>
+                            <ul>
+                                <li>Duration: {{ event.duration if event.duration else 'TBA' }}</li>
+                                <li>Age Advisory: {{ event.age_advisory if event.age_advisory else 'General Audience' }}</li>
+                                <li>Language: {{ event.language if event.language else 'English' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Event Synopsis -->
 
        <!-- Ticket Pricing -->
         <div class="col-12">
             <div id="prices">
-                <h1 class="text-center mt-4">{{ event.name }}</h1>
-                <p><strong>Type:</strong> {{ event.type }}</p>
-                <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
-                <p><strong>Venue:</strong> {{ event.location }}</p>
-                <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
-                <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
-                <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
-                <a href="{{ url_for('events') }}">Back to Events</a>
+                <h2 class="text-center mt-4">Ticket Pricing</h2>
+                <div class="table-responsive mt-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Ticket Type</th>
+                                <th>Price</th>
+                                <th>Available</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>VIP</td>
+                                <td>${{ event.vip_price }}</td>
+                                <td>{{ event.available_tickets }}</td>
+                            </tr>
+                            <tr>
+                                <td>Standard</td>
+                                <td>${{ event.standard_price }}</td>
+                                <td>{{ event.available_tickets }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4">
+                    <h4>Additional Information</h4>
+                    <ul>
+                        <li>All prices are in SGD and inclusive of GST</li>
+                        <li>Each transaction is limited to 4 tickets</li>
+                        <li>Tickets are non-transferable and non-refundable</li>
+                        <li>Reserved tickets: {{ event.reserved_tickets }}</li>
+                        <li>Sold tickets: {{ event.sold_tickets }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
         <!-- End Of Ticket Pricing -->
@@ -67,14 +137,24 @@
         <!-- FAQ -->
         <div class="col-12">
             <div id="faq">
-                <h1 class="text-center mt-4">{{ event.name }}</h1>
-                <p><strong>Type:</strong> {{ event.type }}</p>
-                <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
-                <p><strong>Venue:</strong> {{ event.location }}</p>
-                <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
-                <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
-                <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
-                <a href="{{ url_for('events') }}">Back to Events</a>
+                <h2 class="text-center mt-4">Exchange & Refund Policy FAQ</h2>
+                
+                <div class="mt-4">
+                    <h4>What is your refund policy?</h4>
+                    <p>Tickets are non-refundable except in cases of event cancellation. If the event is cancelled, you will receive a full refund within 7-10 business days.</p>
+
+                    <h4>Can I exchange my tickets for a different date?</h4>
+                    <p>Ticket exchanges are not permitted. Please ensure you select the correct date and time when making your purchase.</p>
+
+                    <h4>What happens if I can't attend the event?</h4>
+                    <p>While tickets are non-refundable, you may transfer them to another person. Please contact customer service at least 48 hours before the event for transfer procedures.</p>
+
+                    <h4>How do I request a refund if the event is cancelled?</h4>
+                    <p>In case of event cancellation, refunds will be automatically processed to the original payment method. No action is required on your part.</p>
+
+                    <h4>Are partial refunds available if I leave the event early?</h4>
+                    <p>No, partial refunds are not available under any circumstances once the event has begun.</p>
+                </div>
             </div>
         </div>
         <!-- End Of FAQ -->
@@ -82,14 +162,46 @@
         <!-- Policy Section-->
         <div class="col-12">
             <div id="policy">
-                <h1 class="text-center mt-4">{{ event.name }}</h1>
-                <p><strong>Type:</strong> {{ event.type }}</p>
-                <p><strong>Date:</strong> {{ event.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
-                <p><strong>Venue:</strong> {{ event.location }}</p>
-                <p><strong>Available Tickets:</strong> {{ event.available_tickets }}</p>
-                <p><strong>Sold Tickets:</strong> {{ event.reserved_tickets }}</p>
-                <p><strong>Sold Tickets:</strong> {{ event.sold_tickets }}</p>
-                <a href="{{ url_for('events') }}">Back to Events</a>
+                <h2 class="text-center mt-4">Event Policies</h2>
+                
+                <div class="mt-4">
+                    <h4>Security Checks And Admission Rules</h4>
+                    <ul>
+                        <li>Printed/electronic tickets must be produced for admission. Tickets must show complete details including barcode, event details, transaction number, and admission policy.</li>
+                        <li>Security checks will be conducted at designated points. Please arrive early.</li>
+                        <li>No outside food and beverages allowed.</li>
+                        <li>The following items are prohibited:
+                            <ul>
+                                <li>Cans and glass bottles</li>
+                                <li>Noise makers (air horns, whistles, etc.)</li>
+                                <li>Flags and placards with offensive slogans or advertisements</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h4>Child Policy</h4>
+                    <ul>
+                        <li>No admission for infants and children under 12 years old</li>
+                        <li>Children 12 years and above must purchase a ticket for entry</li>
+                    </ul>
+
+                    <h4>Audio, Photography & Videography Policy</h4>
+                    <ul>
+                        <li>Professional photography and videography are not permitted</li>
+                        <li>The following items are not allowed:
+                            <ul>
+                                <li>Cameras and video cameras with zoom lenses</li>
+                                <li>GoPros, iPads, tablets and laptops</li>
+                                <li>Selfie sticks, gimbals, tripods and monopods</li>
+                            </ul>
+                        </li>
+                        <li>Live streaming of the event is strictly prohibited</li>
+                    </ul>
+                </div>
+
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('events') }}" class="btn btn-secondary">Back to Events</a>
+                </div>
             </div>
         </div>
         <!-- End Of Policy Section-->
@@ -111,5 +223,25 @@
         });
     });
 </script>
+
+<style>
+    /* Add this to your existing styles */
+    h2 {
+        position: relative;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    h2:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;  /* Width of the underline */
+        height: 3px;   /* Thickness of the underline */
+        background-color: #f4a01c;  /* Singapore Airlines gold */
+    }
+</style>
 
 {% endblock %}
