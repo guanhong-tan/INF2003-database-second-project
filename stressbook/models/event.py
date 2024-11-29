@@ -79,14 +79,15 @@ def retrieve_events():
     return list(events_collection.find())
 
 def get_event_by_id(event_id):
-    print("Searching for event with ID:", event_id)  # Debug print
-    print("Type of event_id:", type(event_id))      # Debug print
-    
-    # Find the event by its ID in the MongoDB collection
-    event = events_collection.find_one({"_id": event_id})
-    print("Found event:", event)                     # Debug print
-    
-    return event
+    try:
+        event = events_collection.find_one({"_id": event_id})
+        if not event:
+            print(f"No event found with ID: {event_id}")
+            return None
+        return event
+    except Exception as e:
+        print(f"Error retrieving event: {str(e)}")
+        return None
 
 def reset_events():
     events_collection.delete_many({})

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect , flash , session , abort
 from datetime import datetime
 from models import user , event as event_model , seat
+from utils import login_required  # Remove the dot for direct import
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
@@ -75,23 +76,10 @@ def events():
 
 @app.route("/event/<event_id>")
 def event_detail(event_id):
-    event_detail = event_model.get_event_by_id(event_id)
-    if event_detail:
-        # current_url = request.url
-        current_path = request.path
-        return render_template("event_details.html", event=event_detail , current_path=current_path)
-    else:
-        abort(404)  # If event not found, return a 404 error
-
-@app.route("/event/<event_id>/seating")
-def booking_concert_seat(event_id):
-    event_data = event_model.get_event_by_id(event_id)
-    # seats = seat.get_seats_by_event(event_id)  # Retrieve seats for the event
-    if event_data:
-        # return render_template("booking_concert_seat.html", event=event_data, seats=seats)
-        return render_template("booking_concert_seat.html", event=event_data)
-    else:
-        abort(404)  # Return a 404 error if the event is not found
+    event = event_model.get_event_by_id(event_id)
+    if not event:
+        abort(404)  # Raise 404 if event not found
+    return render_template('event_details.html', event=event)
 
 @app.route("/user_profile", methods=['GET', 'POST'])
 def user_profile():
@@ -116,8 +104,12 @@ def update_profile_details():
     return render_template("user_profile.html")
 
 @app.route("/dashboard")
+@login_required
 def dashboard():
-    return render_template("dashboard.html")
+    # You'll need to implement this function to get user's bookings
+    # For now, we'll pass an empty list
+    bookings = []  # Replace this with actual booking data when implemented
+    return render_template('dashboard.html', bookings=bookings)
 
 @app.route("/logout")
 def logout():
@@ -134,15 +126,11 @@ def datetimeformat(value, format='%Y-%m-%d %H:%M'):
     except (ValueError, TypeError):
         return value  # Return the original value if it can't be parsed
     
-@app.route('/booking/confirm', methods=['GET', 'POST'])
+@app.route('/booking/confirm')
+@login_required  # Add this decorator
 def booking_confirm():
     event_id = request.args.get('event_id')
     event = event_model.get_event_by_id(event_id)
-    
-    if event is None:
-        flash("Event not found.", "danger")
-        return redirect(url_for('events'))
-    
     return render_template('booking_confirm.html',
         event=event,
         section=request.args.get('section'),
@@ -176,6 +164,32 @@ def reset_database():
     from models.event import reset_events
     reset_events()
     return "Database reset successfully"
+
+@app.route('/booking/concert-seat/<event_id>')
+@login_required
+def booking_concert_seat(event_id):
+    event = event_model.get_event_by_id(event_id)
+    if not event:
+        abort(404)
+    return render_template('booking_concert_seat.html', event=event)
+
+@app.route('/profile')
+@login_required  # Add this decorator
+def profile():
+    return render_template('profile.html')
+
+# Error handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('errors/500.html'), 500
+
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template('errors/403.html'), 403
 
 if __name__ == "__main__":
     event_model.reset_events()
