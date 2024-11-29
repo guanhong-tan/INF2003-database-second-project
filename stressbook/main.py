@@ -52,17 +52,18 @@ def login_account():
         password = request.form['password']
 
         # Check if the user exists and if the password is correct
-        user_data = user.user_login(email,password)  
+        user_data = user.user_login(email, password)  
         if user_data:
             # If login is successful, set session variables
             session['logged_in'] = True
-            session['user_id'] = str(user_data['_id'])  # Store user ID in session
-            session['user_email'] = user_data['email']  # Store user email for display
-            session['name'] = user_data['name'] # Store user ID in session
-            flash("Logged in successfully.", "success")
-            return redirect(url_for('events'))  
+            session['user_id'] = str(user_data['_id'])
+            session['user_email'] = user_data['email']
+            session['name'] = user_data['name']
+            flash("Logged in successfully!", "success")
+            return redirect(url_for('events'))
         else:
-            flash("Invalid email or password.", "danger")  
+            flash("Invalid email or password. Please try again.", "danger")
+            return render_template("login.html")
 
     return render_template("login.html")
 
