@@ -203,6 +203,14 @@ def booking_concert_seat(event_id):
         abort(404)
     return render_template('booking_concert_seat.html', event=event)
 
+@app.route('/event/<event_id>/available_tickets')
+def get_available_tickets(event_id):
+    event = event_model.get_event_by_id(event_id)
+    if not event:
+        return {"error": "Event not found"}, 404
+    return {"available_tickets": event.get("available_tickets", 0) , "sold_tickets": event.get("sold_tickets", 0)}
+
+
 @app.route('/profile')
 @login_required  # Add this decorator
 def profile():

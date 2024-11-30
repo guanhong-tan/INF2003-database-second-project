@@ -122,19 +122,20 @@
                             <tr>
                                 <th>Ticket Type</th>
                                 <th>Price</th>
-                                <th>Available</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>VIP</td>
-                                <td>${{ event.vip_price }}</td>
-                                <td>{{ event.available_tickets }}</td>
+                                <td>$200{{ event.vip_price }}</td>
                             </tr>
                             <tr>
                                 <td>Standard</td>
-                                <td>${{ event.standard_price }}</td>
-                                <td>{{ event.available_tickets }}</td>
+                                <td>$100 - $150{{ event.standard_price }}</td>
+                            </tr>
+                            <tr> 
+                                <td>Tickets Avaliability</td>
+                                <td id="available-tickets">{{ event.available_tickets }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -147,7 +148,7 @@
                         <li>Each transaction is limited to 4 tickets</li>
                         <li>Tickets are non-transferable and non-refundable</li>
                         <li>Reserved tickets: {{ event.reserved_tickets }}</li>
-                        <li>Sold tickets: {{ event.sold_tickets }}</li>
+                        <li id="sold-tickets">Sold tickets: {{ event.sold_tickets }}</li>
                     </ul>
                 </div>
             </div>
@@ -240,6 +241,36 @@
             });
         });
     });
+
+    function updateAvailableTickets(eventId) {
+        // AJAX call to fetch available tickets
+        fetch(`/event/${eventId}/available_tickets`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to fetch available tickets");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+                // Update the available tickets in the DOM
+                document.getElementById("available-tickets").innerText = data.available_tickets;
+                document.getElementById("sold-tickets").innerText = "Sold tickets: " + data.sold_tickets;
+            })
+            .catch(error => {
+                console.error("Error updating available tickets:", error);
+            });
+    }
+
+    // Get event ID from a hidden element or directly from the context
+    const eventId = "{{ event._id }}";
+
+    // Call the function every 2 seconds
+    setInterval(() => updateAvailableTickets(eventId), 2000);
+
 </script>
 
 <style>
