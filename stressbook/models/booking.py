@@ -1,56 +1,31 @@
 from datetime import datetime
-# Status: "reserved", "completed", "canceled"
-# This one for two different seats plans  ,333 and 224
-{
-  "_id": "booking_id_001",                     
-  "user_id": "user_id_001",                     
-  "event_id": "event_id_001",                  
-  "status": "completed",                       
-  "timestamp": "2024-11-15T10:00:00Z",         
-  "total_price": 400,                           
-  "qr_code": "https://example.com/qr/booking_id_001", 
-  "expiration_time": "2024-11-15T10:15:00Z",    
-  "seat_details": [                             
-    {
-      "seat_section_id": "seat_section_event_id_001_333", 
-      "section": "333",
-      "tickets_booked": 2,                      
-      "price_per_ticket": 200,                  
-      "color": "Periwinkle Blue",
-      "color_code": "#9391f7",
-      "capacity_limit": 100
-    },
-    {
-      "seat_section_id": "seat_section_event_id_001_224", 
-      "section": "224",
-      "tickets_booked": 3,                      
-      "price_per_ticket": 150,                  
-      "color": "Peppermint Frosting",
-      "color_code": "#b3f7ed",
-      "capacity_limit": 100
-    }
-  ]
-}
+from db_connection import db
 
-# This one for one seat plan , qr_code for now remove
-{
-  "_id": "booking_id_001",                     
-  "user_id": "user_id_001",                     
-  "event_id": "event_id_001",                  
-  "status": "completed",                       
-  "timestamp": "2024-11-15T10:00:00Z",         
-  "total_price": 400,                           
-  "qr_code": "https://example.com/qr/booking_id_001", 
-  "expiration_time": "2024-11-15T10:15:00Z",    
-  "seat_details": [                             
-    {
-      "seat_section_id": "seat_section_event_id_001_333", 
-      "section": "333",
-      "tickets_booked": 2,                      
-      "price_per_ticket": 200,                  
-      "color": "Periwinkle Blue",
-      "color_code": "#9391f7",
-      "capacity_limit": 100
+bookings_collection = db['bookings']
+
+def create_booking(user_id, event_id, section, quantity, price_per_ticket, event_name, event_location):
+    """Create a new booking record"""
+    booking = {
+        "user_id": user_id,
+        "event_id": event_id,
+        "status": "completed",
+        "timestamp": datetime.now().isoformat(),
+        "total_price": price_per_ticket * quantity,
+        "seat_details": [{
+            "section": section,
+            "tickets_booked": quantity,
+            "price_per_ticket": price_per_ticket
+        }],
+        "event_name": event_name,
+        "event_location": event_location
     }
-  ]
-}
+    
+    return bookings_collection.insert_one(booking)
+
+def get_user_bookings(user_id):
+    """Get all bookings for a specific user"""
+    try:
+        return list(bookings_collection.find({"user_id": user_id}))
+    except Exception as e:
+        print(f"Error fetching user bookings: {str(e)}")
+        return []

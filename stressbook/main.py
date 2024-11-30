@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect , flash , s
 from datetime import datetime
 from models import user , event as event_model , seat
 from utils import login_required  # Remove the dot for direct import
+from models import booking as booking_model
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Replace with a strong secret key
@@ -80,9 +81,12 @@ def event_detail(event_id):
     if not event:
         abort(404)  # Raise 404 if event not found
     return render_template('event_details.html', event=event)
-
-@app.route("/user_profile", methods=['GET', 'POST'])
+@app.route('/user_profile')
+@login_required
 def user_profile():
+    user_id = session.get('user_id')
+    user_bookings = booking_model.get_user_bookings(user_id)
+    return render_template('user_profile.html', bookings=user_bookings)
     return render_template("user_profile.html")
 
 @app.route("/update_profile_details", methods=['GET', 'POST'])
@@ -139,25 +143,40 @@ def booking_confirm():
     )
 
 @app.route('/booking/process', methods=['POST'])
+@login_required
 def process_booking():
-    event_id = request.form.get('event_id')
-    section = request.form.get('section')
-    price = request.form.get('price')
-    quantity = request.form.get('quantity')
+    try:
+        # Get form data
+        event_id = request.form.get('event_id')
+        section = request.form.get('section')
+        price = float(request.form.get('price'))
+        quantity = int(request.form.get('quantity'))
+        user_id = session.get('user_id')
 
-    # Get the event details
-    event = event_model.get_event_by_id(event_id)
+        # Get event details
+        event = event_model.get_event_by_id(event_id)
+        if not event:
+            flash('Event not found.', 'error')
+            return redirect(url_for('events'))
 
-    # TODO: Add your booking logic here
-    # For example:
-    # - Check if tickets are still available
-    # - Create booking record in database
-    # - Update ticket count
-    # - etc.
+        # Create booking
+        booking_model.create_booking(
+            user_id=user_id,
+            event_id=event_id,
+            section=section,
+            quantity=quantity,
+            price_per_ticket=price,
+            event_name=event['name'],
+            event_location=event['location']
+        )
 
-    # For now, just redirect to a success page or back to events
-    flash('Booking successful!', 'success')
-    return redirect(url_for('events'))
+        flash('Booking successful!', 'success')
+        return redirect(url_for('user_profile'))
+        
+    except Exception as e:
+        print(f"Booking error: {str(e)}")
+        flash('Booking failed. Please try again.', 'error')
+        return redirect(url_for('events'))
 
 @app.route('/reset_db')
 def reset_database():
@@ -190,6 +209,7 @@ def internal_server_error(e):
 @app.errorhandler(403)
 def forbidden(e):
     return render_template('errors/403.html'), 403
+
 
 if __name__ == "__main__":
     event_model.reset_events()
