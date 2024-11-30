@@ -101,3 +101,51 @@ def reset_events():
     all_events = list(events_collection.find())
     for event in all_events:
         print(f"Event in DB: {event['_id']}")
+
+def update_ticket_count(event_id, quantity, action="sold"):
+    """
+    Update ticket counts for an event
+    action: "sold" or "refund"
+    """
+    try:
+        event = events_collection.find_one({"_id": event_id})
+        if not event:
+            return False
+            
+        if action == "sold":
+            # Decrease available tickets and increase sold tickets
+            events_collection.update_one(
+                {"_id": event_id},
+                {
+                    "$inc": {
+                        "available_tickets": -quantity,
+                        "sold_tickets": quantity
+                    }
+                }
+            )
+        elif action == "refund":
+            # Increase available tickets and decrease sold tickets
+            events_collection.update_one(
+                {"_id": event_id},
+                {
+                    "$inc": {
+                        "available_tickets": quantity,
+                        "sold_tickets": -quantity
+                    }
+                }
+            )
+        return True
+    except Exception as e:
+        print(f"Error updating ticket count: {str(e)}")
+        return False
+
+def check_ticket_availability(event_id, quantity):
+    """Check if enough tickets are available"""
+    try:
+        event = events_collection.find_one({"_id": event_id})
+        if not event:
+            return False
+        return event.get('available_tickets', 0) >= quantity
+    except Exception as e:
+        print(f"Error checking ticket availability: {str(e)}")
+        return False

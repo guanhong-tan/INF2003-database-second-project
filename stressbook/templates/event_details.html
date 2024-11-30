@@ -46,6 +46,14 @@
                             <i class="fas fa-map-marker-alt me-2"></i>
                             <span>{{ event.location }}</span>
                         </div>
+                        <div class="d-flex align-items-center mt-3">
+                            <i class="fas fa-ticket-alt me-2"></i>
+                            <span>Available Tickets: {{ event.available_tickets }}</span>
+                        </div>
+                        <div class="d-flex align-items-center mt-3">
+                            <i class="fas fa-chart-line me-2"></i>
+                            <span>Sold Tickets: {{ event.sold_tickets }}</span>
+                        </div>
                         {% if event.artist %}
                         <div class="d-flex align-items-center mt-3">
                             <i class="fas fa-microphone me-2"></i>

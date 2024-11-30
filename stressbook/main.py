@@ -158,8 +158,13 @@ def process_booking():
             flash('Event not found.', 'error')
             return redirect(url_for('events'))
 
+        # Check ticket availability
+        if not event_model.check_ticket_availability(event_id, quantity):
+            flash('Sorry, not enough tickets available.', 'error')
+            return redirect(url_for('booking_concert_seat', event_id=event_id))
+
         # Create booking
-        booking_model.create_booking(
+        booking_result = booking_model.create_booking(
             user_id=user_id,
             event_id=event_id,
             section=section,
@@ -169,8 +174,15 @@ def process_booking():
             event_location=event['location']
         )
 
-        flash('Booking successful!', 'success')
-        return redirect(url_for('user_profile'))
+        if booking_result:
+            # Update ticket counts
+            if event_model.update_ticket_count(event_id, quantity, "sold"):
+                flash('Booking successful!', 'success')
+                return redirect(url_for('user_profile'))
+            else:
+                # If ticket count update fails, we should ideally rollback the booking
+                flash('Booking failed. Please try again.', 'error')
+                return redirect(url_for('events'))
         
     except Exception as e:
         print(f"Booking error: {str(e)}")
