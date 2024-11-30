@@ -229,6 +229,13 @@ def internal_server_error(e):
 def forbidden(e):
     return render_template('errors/403.html'), 403
 
+@app.context_processor
+def inject_current_bookings():
+    if 'logged_in' in session:
+        # Get current bookings for the logged-in user
+        current_bookings = [] # Replace with your actual booking retrieval logic
+        return {'current_bookings': current_bookings}
+    return {'current_bookings': []}
 
 if __name__ == "__main__":
     event_model.reset_events()

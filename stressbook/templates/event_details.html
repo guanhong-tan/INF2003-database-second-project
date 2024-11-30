@@ -192,10 +192,21 @@
                     </ul>
 
                     <h4>Child Policy</h4>
-                    {% if event.adult_only %}
+                    {% if event.age_advisory == 'R21' %}
                     <ul>
-                        <li>This is an adult-only event. No admission for anyone under 18 years old</li>
+                        <li>This is an R21 event. No admission for anyone under 21 years old</li>
                         <li>Valid ID/proof of age will be required at entry</li>
+                    </ul>
+                    {% elif event.age_advisory == 'M18' %}
+                    <ul>
+                        <li>This is an M18 event. No admission for anyone under 18 years old</li>
+                        <li>Valid ID/proof of age will be required at entry</li>
+                    </ul>
+                    {% elif event.age_advisory == 'PG-13' %}
+                    <ul>
+                        <li>This is a PG-13 event. Parental guidance is required for children under 13</li>
+                        <li>Children under 13 must be accompanied by a parent/guardian</li>
+                        <li>All attendees must purchase a ticket for entry</li>
                     </ul>
                     {% else %}
                     <ul>
@@ -215,6 +226,8 @@
                             </ul>
                         </li>
                         <li>Live streaming of the event is strictly prohibited</li>
+                        <li>Taking photos or videos of cosplayers without their consent is strictly prohibited</li>
+                        <li>Upskirt photography, inappropriate touching, or harassment of any kind towards cosplayers will result in immediate removal from the event and possible legal action</li>
                     </ul>
                 </div>
 
