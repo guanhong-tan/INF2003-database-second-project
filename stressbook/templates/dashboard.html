@@ -18,10 +18,42 @@
     }
 
     .booking-item {
-        border-left: 4px solid #f4a01c;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: #f8f9fa;
+        background: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .booking-item h4 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .seat-details {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 10px 0;
+    }
+
+    .seat-info {
+        border-left: 3px solid #f4a01c;
+        padding-left: 15px;
+        margin: 10px 0;
+    }
+
+    .seat-info p {
+        margin: 5px 0;
+    }
+
+    .badge {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .badge.bg-success {
+        background-color: #28a745 !important;
     }
 </style>
 {% endblock %}
@@ -49,10 +81,19 @@
                 {% for booking in bookings %}
                 <div class="booking-item">
                     <h4>{{ booking.event_name }}</h4>
-                    <p><strong>Date:</strong> {{ booking.date | datetimeformat('%Y-%m-%d %H:%M') }}</p>
-                    <p><strong>Venue:</strong> {{ booking.venue }}</p>
-                    <p><strong>Seat:</strong> {{ booking.seat }}</p>
-                    <p><strong>Status:</strong> <span class="badge bg-success">Confirmed</span></p>
+                    <p><strong>Date:</strong> {{ booking.timestamp | datetimeformat('%Y-%m-%d %H:%M') }}</p>
+                    <p><strong>Venue:</strong> {{ booking.event_location }}</p>
+                    <div class="seat-details">
+                        {% for seat in booking.seat_details %}
+                            <div class="seat-info">
+                                <p><strong>Section:</strong> {{ seat.section }}</p>
+                                <p><strong>Number of Tickets:</strong> {{ seat.tickets_booked }}</p>
+                                <p><strong>Price per Ticket:</strong> ${{ seat.price_per_ticket }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <p><strong>Total Price:</strong> ${{ booking.total_price }}</p>
+                    <p><strong>Status:</strong> <span class="badge bg-success">{{ booking.status | title }}</span></p>
                 </div>
                 {% endfor %}
             {% else %}

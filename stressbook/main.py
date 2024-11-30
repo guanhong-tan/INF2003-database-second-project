@@ -107,13 +107,12 @@ def update_profile_details():
         return redirect(url_for('user_profile'))
     return render_template("user_profile.html")
 
-@app.route("/dashboard")
+@app.route('/dashboard')
 @login_required
 def dashboard():
-    # You'll need to implement this function to get user's bookings
-    # For now, we'll pass an empty list
-    bookings = []  # Replace this with actual booking data when implemented
-    return render_template('dashboard.html', bookings=bookings)
+    user_id = session.get('user_id')
+    user_bookings = booking_model.get_user_bookings(user_id)
+    return render_template('dashboard.html', bookings=user_bookings)
 
 @app.route("/logout")
 def logout():
