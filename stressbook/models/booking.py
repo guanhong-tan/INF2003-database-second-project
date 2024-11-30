@@ -3,6 +3,21 @@ from db_connection import db
 
 bookings_collection = db['bookings']
 
+# Create indexes
+def create_indexes():
+    """Create indexes for the bookings collection"""
+    # Index for querying bookings by user_id
+    bookings_collection.create_index("user_id")
+    
+    # Compound index for querying by event_id and status
+    bookings_collection.create_index([("event_id", 1), ("status", 1)])
+    
+    # Index for timestamp to optimize sorting by date
+    bookings_collection.create_index("timestamp")
+
+# Call create_indexes when initializing the application
+create_indexes()
+
 def create_booking(user_id, event_id, section, quantity, price_per_ticket, event_name, event_location):
     """Create a new booking record"""
     booking = {

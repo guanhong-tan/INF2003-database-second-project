@@ -234,4 +234,7 @@ if __name__ == "__main__":
     event_model.reset_events()
     event_model.create_events_onload()
     seat.initialize_seat_sections()
+    # Initialize indexes
+    from models.booking import create_indexes
+    create_indexes()
     app.run(debug=True,threaded=True)
