@@ -122,12 +122,19 @@ def logout():
 
 # The @app.template_filter('datetimeformat') decorator in Flask is used to create a custom Jinja2 filter named datetimeformat, which you can use in your templates. This filter allows you to apply custom formatting to data directly within your Jinja2 templates.
 @app.template_filter('datetimeformat')
-def datetimeformat(value, format='%Y-%m-%d %H:%M'):
-    try:
-        date_obj = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")  # Adjust format if necessary
-        return date_obj.strftime(format)
-    except (ValueError, TypeError):
-        return value  # Return the original value if it can't be parsed
+def datetimeformat(value, format='%d %b %Y, %I:%M %p'):
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        try:
+            value = datetime.fromisoformat(value.replace('Z', '+00:00'))
+        except ValueError:
+            try:
+                # Fallback for other string formats
+                value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+            except ValueError:
+                return value
+    return value.strftime(format)
     
 @app.route('/booking/confirm')
 @login_required  # Add this decorator
