@@ -48,11 +48,11 @@
                         </div>
                         <div class="d-flex align-items-center mt-3">
                             <i class="fas fa-ticket-alt me-2"></i>
-                            <span>Available Tickets: {{ event.available_tickets }}</span>
+                            <span id="available-tickets">Available Tickets: {{ event.available_tickets }}</span>
                         </div>
                         <div class="d-flex align-items-center mt-3">
                             <i class="fas fa-chart-line me-2"></i>
-                            <span>Sold Tickets: {{ event.sold_tickets }}</span>
+                            <span id="sold-tickets">Sold Tickets: {{ event.sold_tickets }}</span>
                         </div>
                         {% if event.artist %}
                         <div class="d-flex align-items-center mt-3">
@@ -133,10 +133,6 @@
                                 <td>Standard</td>
                                 <td>$100 - $150{{ event.standard_price }}</td>
                             </tr>
-                            <tr> 
-                                <td>Tickets Avaliability</td>
-                                <td id="available-tickets">{{ event.available_tickets }}</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -147,8 +143,6 @@
                         <li>All prices are in SGD and inclusive of GST</li>
                         <li>Each transaction is limited to 4 tickets</li>
                         <li>Tickets are non-transferable and non-refundable</li>
-                        <li>Reserved tickets: {{ event.reserved_tickets }}</li>
-                        <li id="sold-tickets">Sold tickets: {{ event.sold_tickets }}</li>
                     </ul>
                 </div>
             </div>
@@ -270,8 +264,8 @@
                     return;
                 }
                 // Update the available tickets in the DOM
-                document.getElementById("available-tickets").innerText = data.available_tickets;
-                document.getElementById("sold-tickets").innerText = "Sold tickets: " + data.sold_tickets;
+                document.getElementById("available-tickets").innerText = "Available Tickets: " + data.available_tickets;
+                document.getElementById("sold-tickets").innerText = "Sold Tickets: " + data.sold_tickets;
             })
             .catch(error => {
                 console.error("Error updating available tickets:", error);

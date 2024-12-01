@@ -67,14 +67,14 @@ seat_sections = [
     {"section": "215", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 200},
     {"section": "214", "price": 300, "color": "Skullcrusher Brass", "color_code": "#efc58f", "capacity_limit": 200},
 
-    {"section": "PA2", "price": 400, "color": "Light Whimsy", "color_code": "#97cfe9", "capacity_limit": 400},
-    {"section": "PB2", "price": 400, "color": "Light Whimsy", "color_code": "#97cfe9", "capacity_limit": 400},
+    {"section": "pa2", "price": 400, "color": "Light Whimsy", "color_code": "#97cfe9", "capacity_limit": 400},
+    {"section": "pb2", "price": 400, "color": "Light Whimsy", "color_code": "#97cfe9", "capacity_limit": 400},
 
     {"section": "234", "price": 300, "color": "Peppermint Frosting", "color_code": "#b3f7ed", "capacity_limit": 200},
     {"section": "208", "price": 300, "color": "Peppermint Frosting", "color_code": "#b3f7ed", "capacity_limit": 200},
     
-    {"section": "PA1", "price": 500, "color": "Leaf Bud", "color_code": "#f1ef9d", "capacity_limit": 1000},
-    {"section": "PB1", "price": 450, "color": "Leaf Bud", "color_code": "#f1ef9d", "capacity_limit": 1000},
+    {"section": "pa1", "price": 500, "color": "Leaf Bud", "color_code": "#f1ef9d", "capacity_limit": 1000},
+    {"section": "pb1", "price": 450, "color": "Leaf Bud", "color_code": "#f1ef9d", "capacity_limit": 1000},
 
     {"section": "134", "price": 500, "color": "Lime Sherbet", "color_code": "#d1d989", "capacity_limit": 200},
     {"section": "108", "price": 450, "color": "Lime Sherbet", "color_code": "#d1d989", "capacity_limit": 200},
