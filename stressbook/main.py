@@ -81,14 +81,14 @@ def event_detail(event_id):
     if not event:
         abort(404)  # Raise 404 if event not found
     return render_template('event_details.html', event=event)
+
 @app.route('/user_profile')
 @login_required
 def user_profile():
     user_id = session.get('user_id')
     user_bookings = booking_model.get_user_bookings(user_id)
     return render_template('user_profile.html', bookings=user_bookings)
-    return render_template("user_profile.html")
-
+ 
 @app.route("/update_profile_details", methods=['GET', 'POST'])
 def update_profile_details():
     if not session.get('logged_in'):
@@ -152,24 +152,17 @@ def booking_confirm():
 @login_required
 def process_booking():
     try:
-        # Get form data
+        # Extract booking details from the request
         event_id = request.form.get('event_id')
         section = request.form.get('section')
         price = float(request.form.get('price'))
         quantity = int(request.form.get('quantity'))
         user_id = session.get('user_id')
 
-        # Get event details
         event = event_model.get_event_by_id(event_id)
         if not event:
             flash('Event not found.', 'error')
             return redirect(url_for('events'))
-
-        # Check ticket availability
-        if not event_model.check_ticket_availability(event_id, quantity):
-            flash('Sorry, not enough tickets available.', 'error')
-            return redirect(url_for('booking_concert_seat', event_id=event_id))
-
         # Create booking
         booking_result = booking_model.create_booking(
             user_id=user_id,
@@ -177,24 +170,22 @@ def process_booking():
             section=section,
             quantity=quantity,
             price_per_ticket=price,
-            event_name=event['name'],
-            event_location=event['location']
+            event_name = event["name"],  # Pass event name
+            event_location = event["location"]
         )
 
-        if booking_result:
-            # Update ticket counts
-            if event_model.update_ticket_count(event_id, quantity, "sold"):
-                flash('Booking successful!', 'success')
-                return redirect(url_for('user_profile'))
-            else:
-                # If ticket count update fails, we should ideally rollback the booking
-                flash('Booking failed. Please try again.', 'error')
-                return redirect(url_for('events'))
-        
+        if "success" in booking_result:
+            flash('Booking successful!', 'success')
+            return redirect(url_for('user_profile'))
+        else:
+            flash(booking_result.get("error", "Booking failed. Please try again."), 'error')
+            return redirect(url_for('booking_concert_seat', event_id=event_id))
+
     except Exception as e:
-        print(f"Booking error: {str(e)}")
-        flash('Booking failed. Please try again.', 'error')
+        print(f"Error processing booking: {str(e)}")
+        flash('An unexpected error occurred. Please try again.', 'error')
         return redirect(url_for('events'))
+
 
 @app.route('/reset_db')
 def reset_database():

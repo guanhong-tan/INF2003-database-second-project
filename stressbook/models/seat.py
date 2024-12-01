@@ -112,3 +112,21 @@ def initialize_seat_sections():
         
         seats_collection.insert_many(seats)
         print(f"Inserted {len(seats)} seat sections for event {event_id}.")
+
+def update_seat_count(event_id, section, quantity):
+    """Update seat availability atomically."""
+    try:
+        result = seats_collection.update_one(
+            {"_id": f"seat_section_{event_id}_{section}", "available_tickets": {"$gte": quantity}},
+            {
+                "$inc": {
+                    "available_tickets": -quantity,
+                    "reserved_tickets": quantity
+                }
+            }
+        )
+        return result.modified_count > 0
+    except Exception as e:
+        print(f"Error updating seat count: {str(e)}")
+        return False
+
