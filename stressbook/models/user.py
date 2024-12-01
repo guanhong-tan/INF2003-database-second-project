@@ -1,17 +1,22 @@
 from datetime import datetime
 from db_connection import users_collection 
 from bson import ObjectId
+from pymongo.errors import DuplicateKeyError
 
-def create_user(name,email,password):
-    user  = {
+def create_user(name, email, password):
+    """Create a new user in the database."""
+    user = {
         "name": name,
         "email": email,
         "password": password,
         "created_at": datetime.now().isoformat(),
     }
-
-    return users_collection.insert_one(user)
-
+    try:
+        result = users_collection.insert_one(user)
+        return {"status": "success", "user_id": str(result.inserted_id)}
+    except DuplicateKeyError:
+        return {"status": "error", "message": "Email already exists"} 
+    
 def user_login(email,password):
     user_data = users_collection.find_one({"email": email})
     if user_data and user_data['password'] == password:
