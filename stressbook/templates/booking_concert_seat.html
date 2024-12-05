@@ -194,13 +194,13 @@
         // Get price based on section type
         let price = ''
         if (sectionId.startsWith('pa') || sectionId.startsWith('pb')) {
-          price = '200'
+          price = '400'
         } else if (sectionId.startsWith('2')) {
           price = '150'
         } else if (sectionId.startsWith('1')) {
           price = '100'
         } else if (sectionId.startsWith('3')) {
-          price = '80'
+          price = '200'
         }
     
         // Redirect to booking confirmation page with parameters
@@ -215,13 +215,13 @@
     
         // Set price based on section type
         if (sectionId.startsWith('pa') || sectionId.startsWith('pb')) {
-          price = '$200' // Premium sections
+          price = '$400' // Premium sections
         } else if (sectionId.startsWith('2')) {
           price = '$150' // 200s sections
         } else if (sectionId.startsWith('1')) {
           price = '$100' // 100s sections
         } else if (sectionId.startsWith('3')) {
-          price = '$80' // 300s sections
+          price = '$200' // 300s sections
         }
     
         tooltip.innerHTML = `Section: ${sectionId}<br>Price: ${price}`

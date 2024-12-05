@@ -136,17 +136,19 @@
                                         <p class="mb-2 pop_semi_bold" style="color:#936E48;font-size:14px;">
                                             {{ booking.event_location }}
                                         </p>
-                                        <p class="mb-2" style="font-size:14px;">
-                                            {{ booking.timestamp | datetimeformat('%B %d, %Y') }}
+                                        <p class="mb-2 pop_semi_bold" style="font-size:14px;">
+                                           Placed On: {{ booking.timestamp | datetimeformat('%B %d, %Y') }}
                                         </p>
                                     </div>
                                     <div class="align-items-end">
+
                                         <p class="text-nowrap p-2 mb-0 mt-2 pt-0 text-end" style="font-size:12px;">
                                             {{ booking.seat_details[0].tickets_booked }} Tickets
                                         </p>
-                                        <p class="text-nowrap p-2 mb-0 pop_semi_bold"
-                                            style="margin-top:18px;font-size:14px;color:#936E48;">
-                                            Total: ${{ booking.total_price }}
+                                        <p class="text-nowrap mb-0 text-end" style="font-size:12px;">Section: {{ booking.seat_details[0].section }} </p>
+                                        <p class="text-nowrap mb-0 mt-2 pop_semi_bold"
+                                            style="font-size:14px;color:#936E48;">
+                                            Total: ${{ booking.total_price }}0
                                         </p>
                                     </div>
                                 </div>
@@ -163,4 +165,4 @@
     </div>
 </main>
 
-{% endblock %}
+{% endblock %}                                       

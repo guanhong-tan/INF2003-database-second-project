@@ -48,7 +48,7 @@
             <a class="nav-link p-0 nav-content-height pop_semi_bold" href="/events">Events</a>
             <!-- Movie Seating like the one in golden village harder , when got time -->
             <!-- <a class="nav-link p-0 nav-content-height pop_semi_bold" href="/threaters" >Threaters</a> -->
-            <a class="nav-link p-0 nav-content-height pop_semi_bold" href="/dashboard">Dashboard</a>
+            <!-- <a class="nav-link p-0 nav-content-height pop_semi_bold" href="/dashboard">Dashboard</a> -->
 
             {% if session.get('logged_in') %}
               <a href="/user_profile" class="text-decoration-none p-0"><img class="img-fluid" src="/static/images/login_profile.png" alt="login_profile" width="40" height="40" style="margin-left:40px;" /></a>
@@ -71,13 +71,13 @@
                     <div class="d-flex flex-column align-items-end">
                       <a href="#" class="text-decoration-none p-0" data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- <?php if (isset($_SESSION['username'])): ?> -->
-                        <a href="account.php" class="text-decoration-none p-0"><!-- <img src="<?php echo (isset($_SESSION['profile_pic']) && !empty($_SESSION['profile_pic'])) ? htmlspecialchars($_SESSION['profile_pic']) : "/images/mobile_login_profile.png"; ?>" alt="mdo" width="64" height="64" style="margin-top:48px;margin-right:50px;margin-bottom:28px"> --></a>
+                        <a href="/user_profile" class="text-decoration-none p-0"><!-- <img src="<?php echo (isset($_SESSION['profile_pic']) && !empty($_SESSION['profile_pic'])) ? htmlspecialchars($_SESSION['profile_pic']) : "/images/mobile_login_profile.png"; ?>" alt="mdo" width="64" height="64" style="margin-top:48px;margin-right:50px;margin-bottom:28px"> --></a>
                         <!-- <?php endif; ?> -->
                       </a>
                       <a class="nav-mobile-link active p-0 nav-mobile-content-height pop_semi_bold" aria-current="page" href="/">Home</a>
                       <a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/events">Events</a>
-                      <a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/dashboard">Dashboard</a>
-                      {% if session.get('logged_in') %}
+                      <!-- <a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/dashboard">Dashboard</a>
+                      {% if session.get('logged_in') %} -->
                         <img class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold img-fluid" src="/static/images/login_profile.png" alt="login_profile" width="40" height="40" style="margin-left:50px;" />
                       {% else %}
                         <a class="nav-mobile-link p-0 nav-mobile-content-height pop_semi_bold" href="/login">Login</a>
